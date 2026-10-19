@@ -14,19 +14,21 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
+     * @var list<string> $fillable
      */
     protected $fillable = [
-        'name',
+        'nama',
+        'alamat',
+        'no_ktp',
+        'no_hp',
+        'no_rm',
+        'role',
+        'id_poli',
         'email',
-        'password',
+        'password'
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
      * @var list<string>
      */
     protected $hidden = [
@@ -45,5 +47,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function poli()
+    {
+        return $this->belongsTo(Poli::class, 'id_poli');
+    }
+
+    public function jadwalPeriksas()
+    {
+        return $this->hasMany(JadwalPeriksa::class, 'id_dokter');
+    }
+
+    public function daftarPolis()
+    {
+        return $this->hasMany(DaftarPoli::class, 'id_pasien');
     }
 }

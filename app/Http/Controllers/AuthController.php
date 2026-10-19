@@ -16,9 +16,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
         if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
             $user = Auth::user();
             if ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard');
@@ -29,7 +34,9 @@ class AuthController extends Controller
             }
         }
 
-        return back()->withErrors(['email', 'Email atau password salah']);
+        return back()->withErrors([
+            'email' => 'Email atau password salah.'
+        ])->onlyInput('email');
     }
 
     public function showRegister()
@@ -45,12 +52,15 @@ class AuthController extends Controller
             'no_ktp' => 'required|numeric|unique:users,no_ktp',
             'no_hp' => 'required|numeric',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6'
+            'password' => 'required|min:6|confirmed'
         ]);
 
-        $lastPasien = User::where('role', 'pasien')->orderBy('id', 'desc')->first();
-        $lastId = $lastPasien ? $lastPasien->id + 1 : 1;
-        $no_rm = date('Ym') . '-' . str_pad($lastId, 3, '0', STR_PAD_LEFT);
+        $lastPasien = User::where('role', 'pasien')->whereNotNull('no_rm')->orderBy('id', 'desc')->first();
+        $nextNum = 1;
+        if ($lastPasien && preg_match('/-(\d+)$/', $lastPasien->no_rm, $matches)) {
+            $nextNum = (int)$matches[1] + 1;
+        }
+        $no_rm = date('Ym') . '-' . str_pad($nextNum, 3, '0', STR_PAD_LEFT);
 
         User::create([
             'nama' => $request->nama,
@@ -66,9 +76,12 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->route('login');
     }
 }

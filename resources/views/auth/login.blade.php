@@ -1,3 +1,4 @@
+
 <x-layouts.guest title="Login">
 
     <div class="card bg-base-100 shadow-2xl rounded-2xl w-full max-w-[420px]">
@@ -17,6 +18,14 @@
                 </p>
             </div>
 
+
+            {{-- Success Alert --}}
+            @if (session('success'))
+            <div class="alert alert-success mb-5 rounded-xl text-[0.83rem] text-white bg-emerald-600 border-none">
+                <i class="fas fa-check-circle"></i>
+                <span>{{ session('success') }}</span>
+            </div>
+            @endif
 
             {{-- Error Alert --}}
             @if ($errors->any())

@@ -70,6 +70,17 @@
                 <i class="fas fa-bed-pulse w-4 text-center"></i>
                 Manajemen Pasien
         </a>
+        <!-- Cari menu Manajemen Obat di sidebar Anda dan sesuaikan href-nya -->
+        <a href="{{ route('obat.index') }}" 
+            class="flex items-center px-4 py-2.5 text-gray-300 hover:text-        white hover:bg-indigo-800 rounded-lg transition">
+            <i class="fas fa-pills w-6"></i> Manajemen Obat
+        </a>
+        <li>
+        <a href="{{ route('jadwal_periksa.index') }}" 
+            class="flex items-center px-4 py-2.5 text-gray-300 hover:text-white hover:bg-indigo-800 rounded-lg transition">
+            <i class="fas fa-calendar-alt w-6"></i> Jadwal Periksa
+        </a>
+</li>
         </div>
         @endif
 

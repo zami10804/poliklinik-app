@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class JadwalPeriksa extends Model
 {
-    protected $table = 'jadwal_periksa';
+    use HasFactory;
+
+    protected $table = 'jadwal_periksa'; 
 
     protected $fillable = [
         'id_dokter',
@@ -15,13 +18,9 @@ class JadwalPeriksa extends Model
         'jam_selesai',
     ];
 
+    // Ubah relasi ini mengarah ke model User
     public function dokter()
     {
         return $this->belongsTo(User::class, 'id_dokter');
-    }
-
-    public function daftarPolis()
-    {
-        return $this->hasMany(DaftarPoli::class, 'id_jadwal');
     }
 }

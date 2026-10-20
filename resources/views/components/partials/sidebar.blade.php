@@ -76,10 +76,7 @@
             <i class="fas fa-pills w-6"></i> Manajemen Obat
         </a>
         <li>
-        <a href="{{ route('jadwal_periksa.index') }}" 
-            class="flex items-center px-4 py-2.5 text-gray-300 hover:text-white hover:bg-indigo-800 rounded-lg transition">
-            <i class="fas fa-calendar-alt w-6"></i> Jadwal Periksa
-        </a>
+        
 </li>
         </div>
         @endif
@@ -119,7 +116,12 @@
                 <i class="fas fa-stethoscope w-4 text-center"></i>
                 Dashboard Dokter
             </a>
-
+            <a href="{{ route('jadwal-periksa.index') }}"
+                 class="{{ $baseLink }} {{ request()->routeIs('jadwal-periksa.*') ? $active : $inactive }}"
+>
+                <i class="fas fa-stethoscope w-4 text-center"></i>
+                 Jadwal Periksa
+            </a>
         </div>
         @endif
 

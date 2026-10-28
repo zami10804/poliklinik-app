@@ -1,7 +1,7 @@
-<aside class="w-full bg-transparent text-slate-300 flex flex-col min-h-screen">
+<aside class="w-full bg-transparent text-slate-300 flex flex-col h-screen">
 
     {{-- ================= BRAND ================= --}}
-    <div class="px-5 py-5 border-b border-white/10">
+    <div class="px-5 py-5 border-b border-white/10 shrink-0">
         <div class="flex items-center gap-3">
             <img src="{{ asset('images/logo-bengkot.png') }}" class="w-10 h-10 rounded-xl object-cover">
 
@@ -31,7 +31,7 @@
     </div>
 
 
-    {{-- ================= MENU ================= --}}
+    {{-- ================= MENU (Bisa di-scroll jika panjang) ================= --}}
     <div class="flex-1 overflow-y-auto px-3 py-4">
 
         @php
@@ -49,7 +49,6 @@
         </p>
 
         <div class="space-y-1">
-
             <a href="{{ route('admin.dashboard') }}"
                 class="{{ $baseLink }} {{ request()->routeIs('admin.dashboard') ? $active : $inactive }}">
                 <i class="fas fa-gauge-high w-4 text-center"></i>
@@ -58,7 +57,7 @@
             <a href="{{ route('polis.index') }}"
                 class="{{ $baseLink }} {{ request()->routeIs('polis.*') ? $active : $inactive }}">
                 <i class="fas fa-hospital w-4 text-center"></i>
-                 Manajemen Poli
+                Manajemen Poli
             </a>
             <a href="{{ route('dokter.index') }}"
                 class="{{ $baseLink }} {{ request()->routeIs('dokter.*') ? $active : $inactive }}">
@@ -69,15 +68,12 @@
                 class="{{ $baseLink }} {{ request()->routeIs('pasien.*') ? $active : $inactive }}">
                 <i class="fas fa-bed-pulse w-4 text-center"></i>
                 Manajemen Pasien
-        </a>
-        <!-- Cari menu Manajemen Obat di sidebar Anda dan sesuaikan href-nya -->
-        <a href="{{ route('obat.index') }}" 
-            class="flex items-center px-4 py-2.5 text-gray-300 hover:text-        white hover:bg-indigo-800 rounded-lg transition">
-            <i class="fas fa-pills w-6"></i> Manajemen Obat
-        </a>
-        <li>
-        
-</li>
+            </a>
+            <a href="{{ route('obat.index') }}" 
+                class="{{ $baseLink }} {{ request()->routeIs('obat.*') ? $active : $inactive }}">
+                <i class="fas fa-pills w-4 text-center"></i> 
+                Manajemen Obat
+            </a>
         </div>
         @endif
 
@@ -85,42 +81,55 @@
         {{-- ================= PASIEN ================= --}}
         @if(request()->is('pasien*'))
 
-        <p class="text-xs uppercase tracking-widest text-indigo-400 px-3 mb-3 mt-6">
+        <p class="text-xs font-bold uppercase tracking-widest text-indigo-400 px-3 mb-3 mt-6">
             Menu Pasien
         </p>
 
         <div class="space-y-1">
-
             <a href="{{ route('pasien.dashboard') }}"
                 class="{{ $baseLink }} {{ request()->routeIs('pasien.dashboard') ? $active : $inactive }}">
                 <i class="fas fa-house-medical w-4 text-center"></i>
                 Dashboard Pasien
             </a>
-
-
+            <a href="{{ route('pasien.daftar') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('pasien.daftar') ? $active : $inactive }}">
+                <i class="fas fa-file-medical w-4 text-center"></i>
+                Pendaftaran Periksa
+            </a>
         </div>
         @endif
 
 
-        {{-- ================= DOKTER ================= --}}
+        {{-- ================ DOKTER ================ --}}
         @if(request()->is('dokter*'))
 
-        <p class="text-xs uppercase tracking-widest text-indigo-400 px-3 mb-3 mt-6">
+        <p class="text-xs font-bold uppercase tracking-widest text-indigo-400 px-3 mb-3 mt-6">
             Menu Dokter
         </p>
 
         <div class="space-y-1">
-
             <a href="{{ route('dokter.dashboard') }}"
-                class="{{ $baseLink }} {{ request()->routeIs('dokter.dashboard') ? $active : $inactive }}">
+               class="{{ $baseLink }} {{ request()->routeIs('dokter.dashboard') ? $active : $inactive }}">
                 <i class="fas fa-stethoscope w-4 text-center"></i>
                 Dashboard Dokter
             </a>
+
             <a href="{{ route('jadwal-periksa.index') }}"
-                 class="{{ $baseLink }} {{ request()->routeIs('jadwal-periksa.*') ? $active : $inactive }}"
->
-                <i class="fas fa-stethoscope w-4 text-center"></i>
-                 Jadwal Periksa
+               class="{{ $baseLink }} {{ request()->routeIs('jadwal-periksa.*') ? $active : $inactive }}">
+                <i class="fas fa-calendar-days w-4 text-center"></i>
+                Jadwal Periksa
+            </a>
+
+            <a href="{{ route('periksa-pasien.index') }}"
+               class="{{ $baseLink }} {{ request()->routeIs('periksa-pasien.*') ? $active : $inactive }}">
+                <i class="fas fa-notes-medical w-4 text-center"></i>
+                Periksa Pasien
+            </a>
+
+            <a href="{{ route('riwayat-pasien.index') }}"
+               class="{{ $baseLink }} {{ request()->routeIs('riwayat-pasien.*') ? $active : $inactive }}">
+                <i class="fas fa-clock-rotate-left w-4 text-center"></i>
+                Riwayat Pasien
             </a>
         </div>
         @endif
@@ -128,8 +137,8 @@
     </div>
 
 
-    {{-- ================= LOGOUT ================= --}}
-    <div class="p-4 border-t border-white/10">
+    {{-- ================= LOGOUT (Menempel di Bawah) ================= --}}
+    <div class="p-4 border-t border-white/10 shrink-0">
         <form method="POST" action="/logout">
             @csrf
             <button type="submit"
